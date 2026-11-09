@@ -23,3 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 .vercel
+
+# Evidências locais do Playwright (não versionar)
+.playwright-mcp/
