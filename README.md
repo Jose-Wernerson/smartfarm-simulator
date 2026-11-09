@@ -87,4 +87,4 @@ A lógica de cálculo é totalmente separada da interface e da visualização 3D
 
 ## Licença
 
-Defina a licença antes de distribuir.
+Distribuído sob a licença [MIT](LICENSE).
