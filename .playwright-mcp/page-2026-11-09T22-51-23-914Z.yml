@@ -1,0 +1,241 @@
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: 🌿
+      - generic [ref=e7]:
+        - generic [ref=e8]: SmartFarm Simulator 1.0
+        - generic [ref=e9]: Plantio inteligente. Água consciente. Agricultura conectada.
+    - generic [ref=e10]: "Propriedade: Normal"
+    - generic [ref=e12]: Sensores 13/13
+    - generic [ref=e14]: 🕒 Dia 1 · 06:00
+    - button "▶ Iniciar" [ref=e15] [cursor=pointer]
+    - button "↺ Reiniciar" [ref=e16] [cursor=pointer]
+    - combobox "Velocidade da simulação" [ref=e17]:
+      - option "⏩ 1 min/s"
+      - option "⏩ 5 min/s"
+      - option "⏩ 15 min/s" [selected]
+      - option "⏩ 1 h/s"
+      - option "⏩ 4 h/s"
+    - button "🎓 Demo" [ref=e18] [cursor=pointer]
+  - generic [ref=e19]:
+    - button "🌱 Propriedade 3D" [ref=e20] [cursor=pointer]
+    - button "📈 Gráficos" [ref=e21] [cursor=pointer]
+    - button "🔔 Alertas" [ref=e22] [cursor=pointer]
+    - button "🧪 Cenários" [ref=e23] [cursor=pointer]
+    - button "⚠ Falhas" [ref=e24] [cursor=pointer]
+    - button "📄 Relatórios" [ref=e25] [cursor=pointer]
+    - button "📱 Celular" [ref=e26] [cursor=pointer]
+    - button "🎓 Apresentação" [ref=e27] [cursor=pointer]
+  - generic [ref=e28]:
+    - complementary [ref=e29]:
+      - heading "Controle da irrigação" [level=3] [ref=e30]
+      - generic [ref=e31]:
+        - generic [ref=e32]: Modo de operação
+        - combobox [ref=e34]:
+          - option "Manual"
+          - option "Programado (temporizador)"
+          - option "Automático (sensores)"
+          - option "Inteligente" [selected]
+          - option "Otimizado por zonas"
+          - option "Convencional (operador)"
+      - generic [ref=e35]:
+        - generic [ref=e36]:
+          - generic [ref=e37]: Limite de umidade p/ irrigar
+          - generic [ref=e38]: 40%
+        - slider [ref=e39]: "40"
+      - paragraph [ref=e40]: "Umidade = grau de saturação do solo (θ/θs). Faixas demonstrativas: <35% baixa · 35–60% intermediária · 60–80% adequada · >85% bloqueia irrigação."
+      - heading "Propriedade" [level=3] [ref=e41]
+      - generic [ref=e42]:
+        - generic [ref=e43]:
+          - generic [ref=e44]: Área (reinicia) (0.50 ha)
+          - generic [ref=e45]: 5000 m²
+        - slider [ref=e46]: "5000"
+      - generic [ref=e47]:
+        - generic [ref=e48]:
+          - generic [ref=e49]: Quantidade de plantas (reinicia)
+          - generic [ref=e50]: "800"
+        - slider [ref=e51]: "800"
+      - generic [ref=e52]:
+        - generic [ref=e53]:
+          - generic [ref=e54]: Espaçamento entre plantas (reinicia)
+          - generic [ref=e55]: 2.00 m
+        - slider [ref=e56]: "2"
+      - paragraph [ref=e57]: "Entrelinha derivada: 3.13 m · 22 linhas × 38 plantas = 836 plantas reais."
+      - generic [ref=e58]:
+        - generic [ref=e59]: Tipo de solo
+        - combobox [ref=e61]:
+          - option "Arenoso"
+          - option "Franco (médio)" [selected]
+          - option "Argiloso"
+      - generic [ref=e62]:
+        - generic [ref=e63]:
+          - generic [ref=e64]: Capacidade do reservatório
+          - generic [ref=e65]: 80000 L
+        - slider [ref=e66]: "80000"
+      - generic [ref=e67]:
+        - generic [ref=e68]:
+          - generic [ref=e69]: Vazão da bomba
+          - generic [ref=e70]: 18000 L/h
+        - slider [ref=e71]: "18000"
+      - heading "Clima" [level=3] [ref=e72]
+      - generic [ref=e73]:
+        - generic [ref=e74]: Condição
+        - combobox [ref=e76]:
+          - option "Ensolarado" [selected]
+          - option "Parcialmente nublado"
+          - option "Nublado"
+          - option "Chuva leve"
+          - option "Chuva intensa"
+          - option "Período de seca"
+          - option "Onda de calor"
+      - generic [ref=e77]:
+        - generic [ref=e78]:
+          - generic [ref=e79]: Intensidade da chuva
+          - generic [ref=e80]: 0.0 mm/h
+        - slider [ref=e81]: "0"
+      - generic [ref=e82]:
+        - generic [ref=e83]:
+          - generic [ref=e84]: Temperatura ambiente (média)
+          - generic [ref=e85]: 26.0 °C
+        - slider [ref=e86]: "26"
+      - generic [ref=e87]:
+        - generic [ref=e88]:
+          - generic [ref=e89]: Variação térmica diária
+          - generic [ref=e90]: 10 °C
+        - slider [ref=e91]: "10"
+      - generic [ref=e92]:
+        - generic [ref=e93]:
+          - generic [ref=e94]: Intensidade solar
+          - generic [ref=e95]: 100%
+        - slider [ref=e96]: "100"
+      - heading "Hipóteses e opções" [level=3] [ref=e97]
+      - group [ref=e98]:
+        - generic "Hipóteses agronômicas/técnicas" [ref=e99] [cursor=pointer]
+      - group [ref=e100]:
+        - generic "Reposição de água e energia" [ref=e101] [cursor=pointer]
+    - generic [ref=e102]:
+      - generic [ref=e103]:
+        - generic [ref=e215]:
+          - generic: Setor A · 62%
+          - generic: Setor B · 62%
+          - generic: Setor C · 62%
+          - generic: Setor D · 62%
+          - generic: SM-A · 62.3%
+          - generic: SM-B · 61.7%
+          - generic: SM-C · 62.6%
+          - generic: SM-D · 62.4%
+          - generic: ST-A · 24.6°C
+          - generic: ST-D · 24.9°C
+          - generic: TA-01 · 23.4°C
+          - generic: UA-01 · 67.7%
+          - generic: LX-01 · 1.5klux
+          - generic: RN-01 · 0.0mm/h
+          - generic: NV-01 · 79.9%
+          - generic: FL-01 · 74L/h
+          - generic: PR-01 · 0.0bar
+        - generic [ref=e106]:
+          - button "Perspectiva" [ref=e107] [cursor=pointer]
+          - button "Vista superior" [ref=e108] [cursor=pointer]
+          - button "Zonas" [ref=e109] [cursor=pointer]
+          - button "Fluxo de água" [ref=e110] [cursor=pointer]
+          - button "Sensores" [ref=e111] [cursor=pointer]
+        - generic [ref=e112]: "Umidade: <40% intermediária adequada >85%Arraste: girar · Roda: zoom · Clique: sensor/planta/setor"
+      - generic [ref=e117]: ⏸ Pausado — pressione ▶ Iniciar
+    - complementary [ref=e119]:
+      - heading "Solo e clima" [level=3] [ref=e120]
+      - generic [ref=e121]:
+        - generic [ref=e122]:
+          - generic [ref=e123]: Umidade média do solo
+          - strong [ref=e124]:
+            - text: "62.0"
+            - emphasis [ref=e125]: "%"
+        - generic [ref=e128]:
+          - generic [ref=e129]: Temp. do solo
+          - strong [ref=e130]:
+            - text: "25.0"
+            - emphasis [ref=e131]: °C
+        - generic [ref=e132]:
+          - generic [ref=e133]: Temp. do ar
+          - strong [ref=e134]:
+            - text: "23.2"
+            - emphasis [ref=e135]: °C
+        - generic [ref=e136]:
+          - generic [ref=e137]: Umidade do ar
+          - strong [ref=e138]:
+            - text: "68"
+            - emphasis [ref=e139]: "%"
+        - generic [ref=e142]:
+          - generic [ref=e143]: Luminosidade
+          - strong [ref=e144]:
+            - text: "0"
+            - emphasis [ref=e145]: klux
+          - generic [ref=e146]: 0 W/m²
+        - generic [ref=e147]:
+          - generic [ref=e148]: Chuva
+          - strong [ref=e149]:
+            - text: "0.0"
+            - emphasis [ref=e150]: mm/h
+          - generic [ref=e151]: ET₀ 0.00 mm/h
+      - generic [ref=e152]:
+        - generic [ref=e153]:
+          - generic [ref=e154]: Setor A
+          - generic [ref=e155]: 62.0% · Ks 1.00
+        - generic [ref=e156]:
+          - generic [ref=e157]: Setor B
+          - generic [ref=e158]: 62.0% · Ks 1.00
+        - generic [ref=e159]:
+          - generic [ref=e160]: Setor C
+          - generic [ref=e161]: 62.0% · Ks 1.00
+        - generic [ref=e162]:
+          - generic [ref=e163]: Setor D
+          - generic [ref=e164]: 62.0% · Ks 1.00
+      - heading "Água e bomba" [level=3] [ref=e165]
+      - generic [ref=e166]:
+        - generic [ref=e167]:
+          - generic [ref=e168]: Estado da bomba
+          - strong [ref=e169]: Desligada
+          - generic [ref=e170]: "Modo: smart"
+        - generic [ref=e171]:
+          - generic [ref=e172]: Reservatório
+          - strong [ref=e173]:
+            - text: "64.0"
+            - emphasis [ref=e174]: m³
+          - generic [ref=e175]: 80%
+        - generic [ref=e178]:
+          - generic [ref=e179]: Consumo hoje
+          - strong [ref=e180]:
+            - text: "0.0"
+            - emphasis [ref=e181]: m³
+        - generic [ref=e182]:
+          - generic [ref=e183]: Consumo acumulado
+          - strong [ref=e184]:
+            - text: "0.0"
+            - emphasis [ref=e185]: m³
+        - generic [ref=e186]:
+          - generic [ref=e187]: Potência
+          - strong [ref=e188]:
+            - text: "0.00"
+            - emphasis [ref=e189]: kW
+          - generic [ref=e190]: 0.0 kWh acum.
+        - generic [ref=e191]:
+          - generic [ref=e192]: Sensores ativos
+          - strong [ref=e193]: 13/13
+      - heading "Plantas" [level=3] [ref=e196]
+      - generic [ref=e197]:
+        - generic [ref=e198]: Estado geral
+        - strong [ref=e199]: Saudável
+        - generic [ref=e200]: "Ks médio 1.00 · estágio médio: Crescimento vegetativo"
+      - generic [ref=e201]:
+        - generic [ref=e202]:
+          - generic [ref=e203]: Setor A
+          - generic [ref=e204]: Crescimento vegetativo · 30%
+        - generic [ref=e205]:
+          - generic [ref=e206]: Setor B
+          - generic [ref=e207]: Crescimento vegetativo · 30%
+        - generic [ref=e208]:
+          - generic [ref=e209]: Setor C
+          - generic [ref=e210]: Crescimento vegetativo · 30%
+        - generic [ref=e211]:
+          - generic [ref=e212]: Setor D
+          - generic [ref=e213]: Crescimento vegetativo · 30%
+      - paragraph [ref=e214]: "Plantas: 836 · Previsão simulada 6 h: 0.0 mm"
