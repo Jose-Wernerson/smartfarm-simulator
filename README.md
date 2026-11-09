@@ -2,6 +2,8 @@
 
 > **Plantio inteligente. Água consciente. Agricultura conectada.**
 
+🔗 **Demonstração online:** https://smartfarm-simulator.vercel.app
+
 Simulador web interativo de **agricultura inteligente (Smart Agriculture)** aplicado ao cultivo de **maracujá**. Ele reproduz uma propriedade rural equipada com sensores IoT, irrigação automatizada, monitoramento ambiental, controle remoto e análise de dados, tudo com cálculos reais de balanço hídrico e evapotranspiração rodando em tempo simulado.
 
 ## Para que serve
