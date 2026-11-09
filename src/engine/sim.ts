@@ -20,6 +20,7 @@ export const moistPct = (w: World, zi: number) => (w.zones[zi].theta / SOILS[w.c
 export function createWorld(cfgIn: Config): World {
   const cfg = { ...cfgIn }
   const layout = buildLayout(cfg)
+  cfg.plants = layout.plants.length // a configuração passa a refletir exatamente o que é desenhado e simulado
   const soil = SOILS[cfg.soil]
   const rng = mulberry32(cfg.seed)
   const counts = [0, 0, 0, 0]
@@ -29,14 +30,14 @@ export function createWorld(cfgIn: Config): World {
   const w: World = {
     cfg, layout, t: t0, t0, wx, forecastMm: rainForecast(t0, cfg),
     zones: counts.map((c, i) => ({
-      index: i, name: 'ABCD'[i], areaM2: cfg.areaM2 / 4, plants: c,
+      index: i, name: 'ABCD'[i], areaM2: c * layout.rowSp * cfg.spacing, plants: c, // área cultivada real do setor
       theta: (cfg.startMoisture / 100) * soil.thetaS, tSoil: cfg.tempC - 1,
       valveCmd: false, valveOpen: false, irrigating: false, flowLph: 0, ks: 1, dev: cfg.startDev, vigor: 85, clog: 0,
       appliedL: 0, stressH: 0, etcMm: 0, drainMm: 0, runoffMm: 0, rainInfilMm: 0,
     })),
     sensors: [],
     reservoir: { L: cfg.reservoirL * 0.8, cap: cfg.reservoirL, refilling: false },
-    pump: { cmd: false, want: false, on: false, flowLph: 0, leakLph: 0, pressure: 0, powerKw: 0, dwellMin: 99, runMinToday: 0, lowPressMin: 0, noFlowMin: 0 },
+    pump: { cmd: false, want: false, on: false, flowLph: 0, leakLph: 0, pressure: 0, powerKw: 0, dwellMin: 99, runMinToday: 0, lowPressMin: 0, lowPressSensMin: 0, noFlowMin: 0 },
     energy: { loadKw: 0, solarKw: 0, gridKw: 0 },
     faults: emptyFaults(), stats: emptyStats(), daily: [],
     dayStart: { stats: emptyStats(), day: wx.day, alerts: 0, et0: 0, tSum: 0, n: 0 },
@@ -93,8 +94,7 @@ export function step(w: World, dtMin: number): void {
   w.dayStart.n++
 
   const powerOK = !F.power
-  updateSensors(w, dtMin)
-  detectSuspects(w)
+  // Sensores amostram o estado ao FINAL do passo (ver abaixo); o controlador lê a amostra do passo anterior.
 
   // ---------- controle ----------
   const d = decide(w)
@@ -229,7 +229,9 @@ export function step(w: World, dtMin: number): void {
   S.steps++
   if (want && powerOK && w.reservoir.L <= 1) S.dryRunMin += dtMin
 
-  evalAlerts(w)
+  updateSensors(w, dtMin)
+  detectSuspects(w)
+  evalAlerts(w, dtMin)
   if (w.t - w.lastSample >= 15) sample(w)
 }
 

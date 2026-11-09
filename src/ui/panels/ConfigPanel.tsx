@@ -47,7 +47,7 @@ export default function ConfigPanel() {
       <Slider label="Área (reinicia)" v={c.areaM2} min={1000} max={30000} step={500} unit=" m²" on={(v) => set({ areaM2: v })} hint={`(${(c.areaM2 / 10000).toFixed(2)} ha)`} />
       <Slider label="Quantidade de plantas (reinicia)" v={c.plants} min={200} max={2500} step={50} on={(v) => set({ plants: v })} />
       <Slider label="Espaçamento entre plantas (reinicia)" v={c.spacing} min={1} max={4} step={0.25} unit=" m" on={(v) => set({ spacing: v })} dec={2} />
-      <p className="note">Entrelinha derivada: {layout.rowSp.toFixed(2)} m · {layout.rows} linhas × {layout.ppr} plantas = {layout.plants.length} plantas reais.{layout.rowSp <= 2 || layout.rowSp >= 6 ? ' ⚠ densidade fora da faixa usual.' : ''}</p>
+      <p className="note">Geometria (derivada): {layout.rows} linhas × {layout.ppr} plantas = {layout.plants.length} plantas (número simulado e desenhado) · entrelinha {layout.rowSp.toFixed(2)} m · área cultivada {w.zones.reduce((a, z) => a + z.areaM2, 0).toFixed(0)} m² (o restante é carreador).{layout.densityWarning ? ' ⚠ densidade fora da faixa usual de entrelinha (2–6 m).' : ''}</p>
       <Ctl label="Tipo de solo" value="">
         <select value={c.soil} onChange={(e) => set({ soil: e.target.value as SoilType })}>
           {Object.entries(SOILS).map(([k, s]) => <option key={k} value={k}>{s.label}</option>)}

@@ -1,15 +1,39 @@
 import type { Config, Layout, PipeSeg, PlantSite } from './types'
-import { clamp } from './params'
+
+/** Gera a geometria da propriedade a partir da configuração. Zonas: A(0) B(1) C(2) D(3). */
+/** Faixa usual de entrelinha (m) — demonstrativa; fora dela o layout sinaliza `densityWarning`. */
+export const ROW_SP_RANGE: [number, number] = [2, 6]
+
+/**
+ * Escolhe nº de linhas (par) e plantas por linha (par) tal que:
+ *  - W × L = área configurada (exato), com L = plantas_por_linha × espaçamento + 3 m de carreador;
+ *  - nº de plantas desenhadas = linhas × plantas_por_linha, o mais próximo possível do pedido;
+ *  - entrelinha = W / linhas dentro da faixa usual quando possível.
+ */
+export function chooseGrid(areaM2: number, plants: number, spacing: number) {
+  let best: { rows: number; ppr: number; score: number; rowSp: number } | null = null
+  for (let rows = 4; rows <= 120; rows += 2) {
+    for (let ppr = 4; ppr <= 400; ppr += 2) {
+      const L = ppr * spacing + 3
+      const W = areaM2 / L
+      const rowSp = W / rows
+      const outOfRange = Math.max(0, ROW_SP_RANGE[0] - rowSp) + Math.max(0, rowSp - ROW_SP_RANGE[1])
+      const aspect = Math.abs(Math.log(W / L))
+      const score = outOfRange * 1e6 + Math.abs(rows * ppr - plants) * 100 + aspect
+      if (!best || score < best.score) best = { rows, ppr, score, rowSp }
+    }
+  }
+  return best!
+}
 
 /** Gera a geometria da propriedade a partir da configuração. Zonas: A(0) B(1) C(2) D(3). */
 export function buildLayout(cfg: Config): Layout {
-  const rowSp = clamp(cfg.areaM2 / (cfg.plants * cfg.spacing), 2, 6)
-  const targetW = Math.sqrt(cfg.areaM2)
-  const rows = Math.max(4, 2 * Math.round(targetW / rowSp / 2))
-  const ppr = Math.max(4, 2 * Math.ceil(cfg.plants / rows / 2))
+  const { rows, ppr } = chooseGrid(cfg.areaM2, cfg.plants, cfg.spacing)
   const sp = cfg.spacing
-  const W = rows * rowSp
   const L = ppr * sp + 3
+  const W = cfg.areaM2 / L
+  const rowSp = W / rows
+  const densityWarning = rowSp < ROW_SP_RANGE[0] - 1e-9 || rowSp > ROW_SP_RANGE[1] + 1e-9
 
   const rowX: number[] = []
   for (let i = 0; i < rows; i++) rowX.push(-W / 2 + rowSp * (i + 0.5))
@@ -80,6 +104,7 @@ export function buildLayout(cfg: Config): Layout {
     W,
     L,
     rowSp,
+    densityWarning,
     rows,
     ppr,
     rowX,

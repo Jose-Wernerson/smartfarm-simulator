@@ -42,7 +42,7 @@ export function decide(w: World): Decision {
 
     case 'operator': {
       if (w.ctl.opRemainingL <= 0 && wx.day % 2 === 0 && w.ctl.opDay !== wx.day && wx.hour >= 10) {
-        w.ctl.opRemainingL = 15 * cfg.areaM2 // 15 mm nominais, sem considerar clima
+        w.ctl.opRemainingL = 15 * w.zones.reduce((a, z) => a + z.areaM2, 0) // 15 mm nominais sobre a área cultivada, sem considerar clima
         w.ctl.opDay = wx.day
       }
       return w.ctl.opRemainingL > 0 ? { want: true, open: allOpen } : none

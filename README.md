@@ -73,6 +73,16 @@ npm run dev      # servidor de desenvolvimento
 npm run build    # build de produção
 ```
 
+## Testes
+
+```bash
+npm test          # Vitest: motor de simulação e store
+```
+
+A suíte verifica conservação de massa (solo e reservatório), ET₀ contra o Exemplo 19 da FAO-56, energia, determinismo, invariantes físicos,
+os cinco cenários, falhas e regressões. Detalhes e limitações conhecidas: [docs/CHANGELOG.md](docs/CHANGELOG.md).
+Passar nos testes demonstra consistência interna do modelo, **não** validação agronômica com dados reais.
+
 ## Estrutura
 
 ```

@@ -1,8 +1,7 @@
-import { useState } from 'react'
 import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { getWorld } from '../../store/sim'
 import { useResults } from '../../store/results'
-import { SCENARIOS, savingVs } from '../../engine/scenarios'
+import { SCENARIOS, savingVs, scenarioSignature } from '../../engine/scenarios'
 import { PRESETS } from '../../engine/climate'
 import { downloadCsv } from '../../engine/csv'
 
@@ -19,9 +18,11 @@ export function scenariosCsv() {
 }
 
 export default function Scenarios() {
-  const { results, running, run, days: rd, label } = useResults()
-  const [days, setDays] = useState(14)
+  const { results: stored, running, run, days, setDays, resultDays: rd, label, signature } = useResults()
   const cfg = getWorld().cfg
+  // Defesa adicional: resultados só são exibidos se geraram da configuração atual.
+  const stale = stored.length > 0 && signature !== scenarioSignature(cfg)
+  const results = stale ? [] : stored
   const ref = results[0]
   const series = results.length ? results[0].series.map((_, i) => ({ d: results[0].series[i].t, ...Object.fromEntries(results.map((r) => [r.def.short, r.series[i]?.moist])) })) : []
   const water = results.map((r) => ({ n: r.def.short, agua: r.withdrawnL / 1000, perdas: r.lossL / 1000, fill: r.def.color }))
@@ -36,6 +37,9 @@ export default function Scenarios() {
           <button className="btn primary" disabled={running} onClick={() => run(getWorld().cfg, days, PRESETS[cfg.preset].label)}>{running ? 'Calculando…' : '▶ Executar os 5 cenários'}</button>
           {results.length > 0 && <button className="btn" onClick={scenariosCsv}>⬇ CSV</button>}
         </div>
+        {stale && <p className="note" style={{ color: 'var(--warn)' }}>A configuração mudou: resultados anteriores foram descartados. Execute novamente.</p>}
+        {results.length > 0 && days !== rd && <p className="note" style={{ color: 'var(--warn)' }}>Os resultados abaixo são de {rd} dias; a duração selecionada é {days} dias. Execute novamente para atualizar.</p>}
+        {results.length === 0 && !stale && <p className="note">Nenhum resultado para a configuração atual. Escolha a duração e execute.</p>}
       </div>
       <div className="charts">{SCENARIOS.map((s) => (
         <div key={s.id} className="card" style={{ borderLeft: `4px solid ${s.color}` }}><b>{s.id}. {s.name}</b><p className="note">{s.description}</p></div>

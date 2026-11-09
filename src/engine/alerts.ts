@@ -27,7 +27,7 @@ function clear(w: World, key: string) {
 }
 const isActive = (w: World, key: string) => w.alerts.some((a) => a.key === key && a.active)
 
-export function evalAlerts(w: World): void {
+export function evalAlerts(w: World, dtMin: number): void {
   const cfg = w.cfg
   const soil = SOILS[cfg.soil]
   const P0 = cfg.pressureBar
@@ -88,8 +88,10 @@ export function evalAlerts(w: World): void {
   else clear(w, 'dry')
 
   const pv = w.sensors.find((s) => s.type === 'pressure')?.value
+  // Persistência de 10 min da pressão MEDIDA baixa (evita alarme em transitórios/ruído).
+  w.pump.lowPressSensMin = w.pump.on && pv != null && pv < P0 * 0.8 ? w.pump.lowPressSensMin + dtMin : 0
   if (w.pump.on && pv != null) {
-    if (pv < P0 * 0.8) raise(w, 'leak', { severity: 'critical', category: 'Hidráulica', location: w.faults.leakZone === 4 ? 'Tubulação principal' : `Setor ${'ABCD'[Math.max(0, w.faults.leakZone)]}`, title: 'Vazamento detectado', description: `Pressão ${pv.toFixed(2)} bar (nominal ${P0.toFixed(1)}), perda de água.`, recommendation: 'Fechar setor e localizar o vazamento.' })
+    if (w.pump.lowPressSensMin >= 10) raise(w, 'leak', { severity: 'critical', category: 'Hidráulica', location: w.faults.leakZone === 4 ? 'Tubulação principal' : `Setor ${'ABCD'[Math.max(0, w.faults.leakZone)]}`, title: 'Vazamento detectado', description: `Pressão ${pv.toFixed(2)} bar (nominal ${P0.toFixed(1)}), perda de água.`, recommendation: 'Fechar setor e localizar o vazamento.' })
     else if (pv > P0 * 0.92 && w.faults.leak === 0) clear(w, 'leak')
     if (pv > P0 * 1.35) raise(w, 'phi', { severity: 'warning', category: 'Hidráulica', location: 'Tubulação principal', title: 'Pressão anormal na tubulação', description: `Pressão ${pv.toFixed(2)} bar acima do esperado.`, recommendation: 'Checar obstruções, filtros e válvulas.' })
     else if (pv < P0 * 1.2) clear(w, 'phi')

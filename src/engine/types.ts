@@ -102,6 +102,7 @@ export interface Layout {
   W: number
   L: number
   rowSp: number
+  densityWarning: boolean
   rows: number
   ppr: number
   rowX: number[]
@@ -266,6 +267,7 @@ export interface World {
     dwellMin: number
     runMinToday: number
     lowPressMin: number
+    lowPressSensMin: number
     noFlowMin: number
   }
   energy: { loadKw: number; solarKw: number; gridKw: number }

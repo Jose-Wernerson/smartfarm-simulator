@@ -4,6 +4,7 @@ import { DEFAULT_CONFIG, SOILS } from '../engine/params'
 import { PRESETS } from '../engine/climate'
 import { advance, createWorld } from '../engine/sim'
 import type { WeatherPreset } from '../engine/types'
+import { useResults } from './results'
 
 export type Tab = '3d' | 'charts' | 'alerts' | 'scenarios' | 'faults' | 'reports' | 'phone' | 'demo'
 export type Selected = { kind: 'sensor' | 'plant' | 'zone' | 'tank' | 'pump'; id: string } | null
@@ -67,7 +68,7 @@ export const useSim = create<Store>((set, get) => ({
   bump: () => set((s) => ({ rev: s.rev + 1 })),
   setConfig: (p) => {
     const cfg = world.cfg
-    const structural = Object.keys(p).some((k) => STRUCTURAL.includes(k as keyof Config)) || (p.reservoirL !== undefined && false)
+    const structural = Object.keys(p).some((k) => STRUCTURAL.includes(k as keyof Config))
     if (p.soil && p.soil !== cfg.soil && p.threshold === undefined) p = { ...p, threshold: SOILS[p.soil].suggestedThreshold }
     Object.assign(cfg, p)
     if (p.reservoirL !== undefined) {
@@ -79,10 +80,12 @@ export const useSim = create<Store>((set, get) => ({
       world = createWorld({ ...cfg })
       set({ selected: null })
     }
+    useResults.getState().invalidateIfStale(world.cfg)
     get().bump()
   },
   setPreset: (preset) => {
     Object.assign(world.cfg, { preset, rainMmH: PRESETS[preset].rainDefault })
+    useResults.getState().invalidateIfStale(world.cfg)
     get().bump()
   },
   reset: () => {

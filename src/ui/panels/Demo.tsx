@@ -29,7 +29,7 @@ const STEPS: Step[] = [
   { title: '4. Recuperação da umidade', text: 'Enquanto a bomba funciona, a umidade do solo sobe aos poucos e o reservatório perde volume. Ao atingir a meta, o sistema desliga sozinho — sem desperdício.',
     enter: () => { useSim.getState().setSpeed(900) }, done: () => (!getWorld().pump.on && elapsed() > 60) || elapsed() > 12 * 60 },
   { title: '5. Comparando formas de irrigar', text: 'Rodamos 5 estratégias nas mesmas condições de seca por 7 dias e medimos o consumo de água calculado pelo motor de simulação.',
-    enter: () => { useSim.getState().setRunning(false); useResults.getState().run(droughtCfg(), 7, PRESETS.drought.label); useSim.getState().setTab('scenarios') }, done: () => false },
+    enter: () => { useSim.getState().setRunning(false); useResults.getState().run(getWorld().cfg, 7, PRESETS.drought.label); useSim.getState().setTab('scenarios') }, done: () => false },
   { title: '6. Benefícios potenciais', text: () => {
       const r = useResults.getState().results
       if (!r.length) return 'Calculando…'

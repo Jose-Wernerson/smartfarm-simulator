@@ -72,3 +72,14 @@ export function runAll(base: Config, days: number): ScenarioResult[] {
 export function savingVs(ref: ScenarioResult, r: ScenarioResult): number {
   return ref.withdrawnL > 0 ? ((ref.withdrawnL - r.withdrawnL) / ref.withdrawnL) * 100 : 0
 }
+
+/**
+ * Assinatura da configuração que determina os resultados dos cenários.
+ * Exclui `mode` e `effDrip` (cada cenário define os seus). Qualquer outra mudança invalida resultados antigos.
+ */
+export function scenarioSignature(cfg: Config): string {
+  const { mode: _mode, effDrip: _eff, ...rest } = cfg
+  void _mode
+  void _eff
+  return JSON.stringify(Object.entries(rest).sort(([a], [b]) => a.localeCompare(b)))
+}
